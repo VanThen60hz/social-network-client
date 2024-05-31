@@ -1,5 +1,5 @@
 import { Card, Grid } from "@mui/material";
-import Register from "./Register";
+import Login from "./Login";
 
 const Authentication = () => {
     return (
@@ -25,8 +25,8 @@ const Authentication = () => {
                                     Ur Friendly Social Network
                                 </p>
                             </div>
-                            {/* <Login /> */}
-                            <Register />
+                            <Login />
+                            {/* <Register /> */}
                         </Card>
                     </div>
                 </Grid>
