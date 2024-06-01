@@ -2,6 +2,7 @@ import { Button, TextField } from "@mui/material";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useDispatch } from "react-redux";
 import { loginUserAction } from "../../Redux/auth/auth.action";
+import { useNavigate } from "react-router-dom";
 
 const initialValues = { email: "", password: "" };
 // const validationSchema = {
@@ -14,6 +15,7 @@ const initialValues = { email: "", password: "" };
 const Login = () => {
     // const [formVaue, setFormValue] = useState([]);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const handleSubmit = (values) => {
         console.log("handle submit", values);
@@ -71,6 +73,10 @@ const Login = () => {
                     </Button>
                 </Form>
             </Formik>
+            <div className="flex gap-2 items-center justify-center pt-5">
+                <p>If you don&apos;t have account ?</p>
+                <Button onClick={() => navigate("/register")}>Register</Button>
+            </div>
         </>
     );
 };

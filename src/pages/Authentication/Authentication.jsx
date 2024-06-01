@@ -1,5 +1,7 @@
 import { Card, Grid } from "@mui/material";
 import Login from "./Login";
+import Register from "./Register";
+import { Route, Routes } from "react-router-dom";
 
 const Authentication = () => {
     return (
@@ -25,8 +27,21 @@ const Authentication = () => {
                                     Ur Friendly Social Network
                                 </p>
                             </div>
-                            <Login />
-                            {/* <Register /> */}
+                            <Routes>
+                                <Route path="/login" element={<Login />} />
+                                <Route
+                                    path="/register"
+                                    element={<Register />}
+                                />
+                                <Route
+                                    path="*"
+                                    element={
+                                        <div className="text-center">
+                                            Something went wrong
+                                        </div>
+                                    }
+                                />
+                            </Routes>
                         </Card>
                     </div>
                 </Grid>

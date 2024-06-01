@@ -9,6 +9,7 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { registerUserAction } from "../../Redux/auth/auth.action";
+import { useNavigate } from "react-router-dom";
 
 const initialValues = {
     firstName: "",
@@ -28,6 +29,7 @@ const initialValues = {
 const Register = () => {
     const [gender, setGender] = useState("");
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const handleSubmit = (values) => {
         values.gender = gender;
@@ -143,6 +145,10 @@ const Register = () => {
                     </Button>
                 </Form>
             </Formik>
+            <div className="flex gap-2 items-center justify-center pt-5">
+                <p>If you have already account ?</p>
+                <Button onClick={() => navigate("/login")}>Login</Button>
+            </div>
         </>
     );
 };
