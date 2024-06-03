@@ -2,6 +2,7 @@ import { MoreVert } from "@mui/icons-material";
 import { Avatar, Button, Card, Divider, Menu, MenuItem } from "@mui/material";
 import { useState } from "react";
 import { navigationMenu } from "./SidebarNav";
+import { Link } from "react-router-dom";
 
 const Sidebar = () => {
     const [anchorEl, setAnchorEl] = useState(null);
@@ -16,9 +17,15 @@ const Sidebar = () => {
     return (
         <Card className="card h-screen flex flex-col justify-between py-5">
             <div className="space-y-8 pl-5">
-                <div className="">
-                    <h1 className="logo font-bold text-lg">Meow Social</h1>
-                </div>
+                <Link hrefLang="./" className="flex items-center w-auto">
+                    <img
+                        src="./src/assets/img/cute-cat.png"
+                        alt="Meow Social logo"
+                        className="shrink-0 w-12 h-12 object-contain"
+                    />
+                    <h1 className="logo font-bold text-lg ml-4">Meow Social</h1>
+                </Link>
+
                 <div className="space-y-8">
                     {navigationMenu.map((item) => {
                         return (
@@ -39,7 +46,7 @@ const Sidebar = () => {
                     <div className="flex items-center space-x-3">
                         <Avatar src="https://cellphones.com.vn/sforum/wp-content/uploads/2024/02/avatar-anh-meo-cute-5.jpg" />
                         <div>
-                            <p className="font-bold">Nguyễn Văn Meow</p>
+                            <p className="font-bold">Đỗ Minh Meow</p>
                             <p className="opacity-70">@meowchan</p>
                         </div>
                     </div>

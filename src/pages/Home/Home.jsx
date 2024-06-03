@@ -17,14 +17,14 @@ const Home = () => {
 
                 <Grid
                     item
-                    lg={location.pathname === "/" ? 6 : 9}
+                    lg={location.pathname === "/" ? 6.5 : 9.5}
                     xs={12}
                     className="px-5 flex justify-center"
                 >
                     <Outlet />
                 </Grid>
 
-                <Grid item lg={3.5} className="relative">
+                <Grid item lg={3} className="relative">
                     <div className="sticky top-0 w-full">
                         <HomeRight />
                     </div>

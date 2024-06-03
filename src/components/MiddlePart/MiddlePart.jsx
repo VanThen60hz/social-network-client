@@ -1,29 +1,79 @@
-import { Add } from "@mui/icons-material";
-import { Avatar } from "@mui/material";
+import { Add, Article, Image, Videocam } from "@mui/icons-material";
+import { Avatar, Card, IconButton } from "@mui/material";
 import StoryCircle from "./StoryCircle";
+import PostCard from "../Post/PostCard";
 
-const story = [1, 1, 11, 11, 11];
+const stories = [1, 2, 3, 4, 5];
+const posts = [1, 2, 3, 4, 5];
 const MiddlePart = () => {
+    const handleOpenCreatePostModal = () => {
+        console.log("open post modal");
+    };
+
     return (
-        <div className="px-20">
+        <div className="px-20 bg-slate-50">
             <section className="flex items-center p-5 rounded-b-md">
                 <div className="flex flex-col items-center mr-4 cursor-pointer">
-                    <Avatar
-                        sx={{ width: "5rem", height: "5rem" }}
-                        // src="https://nupet.vn/wp-content/uploads/2023/10/anh-avatar-cute-meo-nupet-2.jpg"
-                    >
+                    <Avatar sx={{ width: "5rem", height: "5rem" }}>
                         <Add sx={{ fontSize: "3rem" }} />
                     </Avatar>
                     <p>New</p>
                 </div>
-                {story.map((item) => (
+                {stories.map((item) => (
                     <StoryCircle key={item} />
                 ))}
             </section>
 
-            <section>
-                <div className="flex justify-between"></div>
-            </section>
+            <Card className="p-5 mt-5">
+                <div className="flex justify-between">
+                    <Avatar src="https://cellphones.com.vn/sforum/wp-content/uploads/2024/02/avatar-anh-meo-cute-5.jpg" />
+                    <input
+                        className="outline-none w-[90%] rounded-full px-5 bg-transparent border-[#3b4054] border"
+                        type="text"
+                        name=""
+                        id=""
+                        placeholder="Create new post..."
+                        readOnly
+                    />
+                </div>
+                <div className="flex justify-center space-x-9 mt-5">
+                    <div className="flex items-center">
+                        <IconButton
+                            color="primary"
+                            onClick={handleOpenCreatePostModal}
+                        >
+                            <Image />
+                        </IconButton>
+
+                        <span>media</span>
+                    </div>
+                    <div className="flex items-center">
+                        <IconButton
+                            color="primary"
+                            onClick={handleOpenCreatePostModal}
+                        >
+                            <Videocam />
+                        </IconButton>
+
+                        <span>video</span>
+                    </div>
+                    <div className="flex items-center">
+                        <IconButton
+                            color="primary"
+                            onClick={handleOpenCreatePostModal}
+                        >
+                            <Article />
+                        </IconButton>
+
+                        <span>write article</span>
+                    </div>
+                </div>
+            </Card>
+            <div className="mt-5 space-y-3">
+                {posts.map((item) => (
+                    <PostCard key={item} />
+                ))}
+            </div>
         </div>
     );
 };
