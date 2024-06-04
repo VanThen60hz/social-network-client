@@ -14,7 +14,6 @@ const Home = () => {
                         <Sidebar />
                     </div>
                 </Grid>
-
                 <Grid
                     item
                     lg={location.pathname === "/" ? 6.5 : 9.5}
@@ -23,12 +22,13 @@ const Home = () => {
                 >
                     <Outlet />
                 </Grid>
-
-                <Grid item lg={3} className="relative">
-                    <div className="sticky top-0 w-full">
-                        <HomeRight />
-                    </div>
-                </Grid>
+                {location.pathname == "/" && (
+                    <Grid item lg={3} className="relative">
+                        <div className="sticky top-0 w-full">
+                            <HomeRight />
+                        </div>
+                    </Grid>
+                )}
             </Grid>
         </div>
     );
