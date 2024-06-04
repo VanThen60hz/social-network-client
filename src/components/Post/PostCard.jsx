@@ -29,7 +29,7 @@ const PostCard = () => {
             <CardHeader
                 avatar={
                     <Avatar
-                        src="https://cellphones.com.vn/sforum/wp-content/uploads/2024/02/avatar-anh-meo-cute-3.jpg"
+                        src="https://res.cloudinary.com/dbo5fc7j0/image/upload/v1717540128/avatar-anh-meo-cute-3_sexket.jpg"
                         sx={{ bgcolor: red[500] }}
                         aria-label="recipe"
                     />
