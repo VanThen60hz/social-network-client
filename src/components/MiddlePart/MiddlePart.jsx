@@ -26,7 +26,7 @@ const MiddlePart = () => {
 
             <Card className="p-5 mt-5">
                 <div className="flex justify-between">
-                    <Avatar src="https://cellphones.com.vn/sforum/wp-content/uploads/2024/02/avatar-anh-meo-cute-5.jpg" />
+                    <Avatar src="https://res.cloudinary.com/dbo5fc7j0/image/upload/v1717539851/avatar-anh-meo-cute-5_dswfyl.jpg" />
                     <input
                         className="outline-none w-[90%] rounded-full px-5 bg-transparent border-[#3b4054] border"
                         type="text"
