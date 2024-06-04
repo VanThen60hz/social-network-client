@@ -44,7 +44,7 @@ const Sidebar = () => {
                 <Divider />
                 <div className="pl-5 flex items-center justify-between pt-5">
                     <div className="flex items-center space-x-3">
-                        <Avatar src="https://cellphones.com.vn/sforum/wp-content/uploads/2024/02/avatar-anh-meo-cute-5.jpg" />
+                        <Avatar src="https://res.cloudinary.com/dbo5fc7j0/image/upload/v1717539851/avatar-anh-meo-cute-5_dswfyl.jpg" />
                         <div>
                             <p className="font-bold">Đỗ Minh Meow</p>
                             <p className="opacity-70">@meowchan</p>
