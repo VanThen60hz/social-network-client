@@ -16,7 +16,7 @@ const routes = createBrowserRouter([
     //     element: <Navigate to="/login" />,
     // },
     {
-        path: "",
+        path: "/",
         element: <Home />,
         children: [
             {
@@ -24,29 +24,29 @@ const routes = createBrowserRouter([
                 element: <MiddlePart />,
             },
             {
-                path: "/reels",
+                path: "reels",
                 element: <Reels />,
             },
             {
-                path: "/create-reels",
+                path: "create-reels",
                 element: <CreateReelsForm />,
             },
             {
-                path: "/profile/:id",
+                path: "profile/:id",
                 element: <Profile />,
             },
         ],
     },
     {
-        path: "",
+        path: "/",
         element: <Authentication />,
         children: [
             {
-                path: "/login",
+                path: "login",
                 element: <Login />,
             },
             {
-                path: "/register",
+                path: "register",
                 element: <Register />,
             },
             {
@@ -56,12 +56,12 @@ const routes = createBrowserRouter([
         ],
     },
     {
-        path: "",
+        path: "/",
         element: <LayOut />,
         errorElement: <div>404</div>,
         children: [
             {
-                path: "/hello",
+                path: "hello",
                 element: <div>Hello world!</div>,
             },
             {
