@@ -56,7 +56,7 @@ const PostCard = () => {
             <CardMedia
                 component="img"
                 height="194"
-                image="../src/assets/img/cute-girl.jpg"
+                image="../../src/assets/img/cute-girl.jpg"
                 alt="Paella dish"
             />
             <CardActions className="flex justify-between" disableSpacing>
