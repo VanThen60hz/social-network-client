@@ -1,7 +1,27 @@
 import { Card, Grid } from "@mui/material";
-import { Outlet } from "react-router-dom";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Outlet, useNavigate } from "react-router-dom";
+import { getProfileAction } from "../../Redux/auth/auth.action";
 
 const Authentication = () => {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const jwt = localStorage.getItem("jwt");
+    const user = useSelector((state) => state.auth.user);
+
+    useEffect(() => {
+        if (jwt) {
+            dispatch(getProfileAction(jwt));
+        }
+    }, [jwt, dispatch]);
+
+    useEffect(() => {
+        if (user) {
+            navigate("/");
+        }
+    }, [user, navigate]);
+
     return (
         <div>
             <Grid container>

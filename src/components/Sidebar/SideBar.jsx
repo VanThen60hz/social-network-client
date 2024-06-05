@@ -3,8 +3,11 @@ import { Avatar, Button, Card, Divider, Menu, MenuItem } from "@mui/material";
 import { useState } from "react";
 import { navigationMenu } from "./SidebarNav";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Sidebar = () => {
+    const user = useSelector((state) => state.auth.user);
+
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -46,8 +49,13 @@ const Sidebar = () => {
                     <div className="flex items-center space-x-3">
                         <Avatar src="https://res.cloudinary.com/dbo5fc7j0/image/upload/v1717539851/avatar-anh-meo-cute-5_dswfyl.jpg" />
                         <div>
-                            <p className="font-bold">Đỗ Minh Meow</p>
-                            <p className="opacity-70">@meowchan</p>
+                            <p className="font-bold">
+                                {user?.firstName + " " + user?.lastName}
+                            </p>
+                            <p className="opacity-70">
+                                @
+                                {user?.email.slice(0, user?.email.indexOf("@"))}
+                            </p>
                         </div>
                     </div>
                     <Button

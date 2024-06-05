@@ -11,10 +11,6 @@ import Message from "../pages/Messages/Message";
 import Profile from "../pages/Profile/Profile";
 
 const routes = createBrowserRouter([
-    // {
-    //     path: "/",
-    //     element: <Navigate to="/login" />,
-    // },
     {
         path: "/",
         element: <Home />,
