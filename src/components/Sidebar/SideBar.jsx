@@ -2,11 +2,12 @@ import { MoreVert } from "@mui/icons-material";
 import { Avatar, Button, Card, Divider, Menu, MenuItem } from "@mui/material";
 import { useState } from "react";
 import { navigationMenu } from "./SidebarNav";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const Sidebar = () => {
     const user = useSelector((state) => state.auth.user);
+    const navigate = useNavigate();
 
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
@@ -15,6 +16,14 @@ const Sidebar = () => {
     };
     const handleClose = () => {
         setAnchorEl(null);
+    };
+
+    const handleNavigate = (item) => {
+        if (item.title === "Profile") {
+            navigate(`/profile/${user?.id}`);
+        } else {
+            navigate(`${item.path}`);
+        }
     };
 
     return (
@@ -35,6 +44,7 @@ const Sidebar = () => {
                             <div
                                 className="flex space-x-3 items-center cursor-pointer"
                                 key={item.title}
+                                onClick={() => handleNavigate(item)}
                             >
                                 {item.icon}
                                 <p className="text-xl">{item.title}</p>
@@ -49,12 +59,18 @@ const Sidebar = () => {
                     <div className="flex items-center space-x-3">
                         <Avatar src="https://res.cloudinary.com/dbo5fc7j0/image/upload/v1717539851/avatar-anh-meo-cute-5_dswfyl.jpg" />
                         <div>
-                            <p className="font-bold">
-                                {user?.firstName + " " + user?.lastName}
-                            </p>
-                            <p className="opacity-70">
-                                @
-                                {user?.email.slice(0, user?.email.indexOf("@"))}
+                            <h1 className="py-1 font-bold text-xl">
+                                {user
+                                    ? `${user.firstName} ${user.lastName}`
+                                    : "Loading..."}
+                            </h1>
+                            <p>
+                                {user && user.email
+                                    ? `@${user.email.slice(
+                                          0,
+                                          user.email.indexOf("@"),
+                                      )}`
+                                    : "Loading..."}
                             </p>
                         </div>
                     </div>

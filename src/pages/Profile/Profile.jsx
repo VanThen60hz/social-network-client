@@ -2,6 +2,8 @@ import { Avatar, Box, Button, Card, Tab, Tabs } from "@mui/material";
 import { useState } from "react";
 import PostCard from "../../components/Post/PostCard.jsx";
 import UserReelCard from "../../components/Reels/UserReelCard.jsx";
+import ProfileModal from "../../components/Profile/ProfileModal.jsx";
+import { useSelector } from "react-redux";
 
 const tabs = [
     { value: "posts", name: "Posts" },
@@ -18,7 +20,12 @@ const reposts = [1, 2, 3, 4, 5];
 const Profile = () => {
     // const { id } = useParams();
 
+    const [open, setOpen] = useState(false);
+    const handleOpenProfileModal = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+
     const [value, setValue] = useState("posts");
+    const user = useSelector((state) => state.auth.user);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -47,6 +54,7 @@ const Profile = () => {
                         <Button
                             sx={{ borderRadius: "20px" }}
                             variant="outlined"
+                            onClick={handleOpenProfileModal}
                         >
                             Edit Profile
                         </Button>
@@ -55,6 +63,7 @@ const Profile = () => {
                             sx={{ borderRadius: "20px" }}
                             className="rounded-full"
                             variant="outlined"
+                            onClick={undefined}
                         >
                             Follow
                         </Button>
@@ -62,8 +71,19 @@ const Profile = () => {
                 </div>
                 <div className="p-5">
                     <div>
-                        <h1 className="py-1 font-bold text-xl">Đỗ Minh Meow</h1>
-                        <p>@meowchan</p>
+                        <h1 className="py-1 font-bold text-xl">
+                            {user
+                                ? `${user.firstName} ${user.lastName}`
+                                : "Loading..."}
+                        </h1>
+                        <p>
+                            {user && user.email
+                                ? `@${user.email.slice(
+                                      0,
+                                      user.email.indexOf("@"),
+                                  )}`
+                                : "Loading..."}
+                        </p>
                     </div>
 
                     <div className="flex gap-2 items-center py-3">
@@ -154,6 +174,10 @@ const Profile = () => {
                     </div>
                 </section>
             </div>
+
+            <section>
+                <ProfileModal open={open} handleClose={handleClose} />
+            </section>
         </Card>
     );
 };
