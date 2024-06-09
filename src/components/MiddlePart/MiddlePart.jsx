@@ -2,11 +2,20 @@ import { Add, Article, Image, Videocam } from "@mui/icons-material";
 import { Avatar, Card, IconButton } from "@mui/material";
 import StoryCircle from "./StoryCircle";
 import PostCard from "../Post/PostCard";
+import CreatePostModal from "../CreatePost/CreatePostModal";
+import { useState } from "react";
 
 const stories = [1, 2, 3, 4, 5];
 const posts = [1, 2, 3, 4, 5];
 const MiddlePart = () => {
+    const [openCreatePostModal, setOpenCreatePostModal] = useState(false);
+
+    const handleCloseCreatePostModal = () => {
+        setOpenCreatePostModal(false);
+    };
+
     const handleOpenCreatePostModal = () => {
+        setOpenCreatePostModal(true);
         console.log("open post modal");
     };
 
@@ -28,6 +37,7 @@ const MiddlePart = () => {
                 <div className="flex justify-between">
                     <Avatar src="https://res.cloudinary.com/dbo5fc7j0/image/upload/v1717539851/avatar-anh-meo-cute-5_dswfyl.jpg" />
                     <input
+                        onClick={handleOpenCreatePostModal}
                         className="outline-none w-[90%] rounded-full px-5 bg-transparent border-[#3b4054] border"
                         type="text"
                         name=""
@@ -73,6 +83,13 @@ const MiddlePart = () => {
                 {posts.map((item) => (
                     <PostCard key={item} />
                 ))}
+
+                <div>
+                    <CreatePostModal
+                        handleClose={handleCloseCreatePostModal}
+                        open={openCreatePostModal}
+                    />
+                </div>
             </div>
         </div>
     );
