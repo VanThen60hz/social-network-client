@@ -1,4 +1,16 @@
-import { Box, Modal, Typography } from "@mui/material";
+import { Image, VideoCall } from "@mui/icons-material";
+import {
+    Avatar,
+    Backdrop,
+    Box,
+    Button,
+    CircularProgress,
+    IconButton,
+    Modal,
+} from "@mui/material";
+import { useFormik } from "formik";
+import { useState } from "react";
+import { uploadToCloudinary } from "../../utils/uploadToCloudinary";
 
 const style = {
     position: "absolute",
@@ -14,6 +26,43 @@ const style = {
 };
 
 const CreatePostModal = ({ handleClose, open }) => {
+    const [selectedImage, setSelectedImage] = useState();
+    const [selectedVideo, setSelectedVideo] = useState();
+    const [isLoading, setIsLoading] = useState(false);
+
+    const handleSelectImage = async (event) => {
+        setIsLoading(true);
+        const imageUrl = await uploadToCloudinary(
+            event.target.files[0],
+            "image",
+        );
+        setSelectedImage(imageUrl);
+        setIsLoading(false);
+        formik.setFieldValue("image", imageUrl);
+    };
+
+    const handleSelectVideo = async (event) => {
+        setIsLoading(true);
+        const videoUrl = await uploadToCloudinary(
+            event.target.files[0],
+            "video",
+        );
+        setSelectedVideo(videoUrl);
+        setIsLoading(false);
+        formik.setFieldValue("image", videoUrl);
+    };
+
+    const formik = useFormik({
+        initialValues: {
+            caption: "",
+            image: "",
+            video: "",
+        },
+
+        onSubmit: (values) => {
+            console.log("formik value:", values);
+        },
+    });
     return (
         <div>
             {" "}
@@ -24,17 +73,109 @@ const CreatePostModal = ({ handleClose, open }) => {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <Typography
-                        id="modal-modal-title"
-                        variant="h6"
-                        component="h2"
+                    <form onSubmit={formik.handleSubmit} action="">
+                        <div>
+                            <div className="flex space-x-4 items-center">
+                                <Avatar />
+                                <div>
+                                    <p className="font-bold text-lg">
+                                        Nguyễn Meow
+                                    </p>
+                                    <p className="text-sm">@meowmeow</p>
+                                </div>
+                            </div>
+
+                            <textarea
+                                className="outline-none w-full mt-5 p-2 bg-transparent border border-[#3b4054] rounded-sm"
+                                name="caption"
+                                id=""
+                                onChange={formik.handleChange}
+                                value={formik.values.caption}
+                                cols={30}
+                                rows={4}
+                                placeholder="write caption..."
+                            ></textarea>
+
+                            <div className="flex space-x-5 items-center mt-5">
+                                <div>
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        onChange={handleSelectImage}
+                                        style={{ display: "none" }}
+                                        name=""
+                                        id="image-input"
+                                    />
+                                    <label htmlFor="image-input">
+                                        <IconButton
+                                            color="primary"
+                                            component="span"
+                                        >
+                                            <Image />{" "}
+                                        </IconButton>
+                                    </label>
+                                    <span>Image</span>
+                                </div>
+                                <div>
+                                    <input
+                                        type="file"
+                                        accept="video/*"
+                                        onChange={handleSelectVideo}
+                                        style={{ display: "none" }}
+                                        name=""
+                                        id="video-input"
+                                    />
+                                    <label htmlFor="video-input">
+                                        <IconButton
+                                            color="primary"
+                                            component="span"
+                                        >
+                                            <VideoCall />{" "}
+                                        </IconButton>
+                                    </label>
+                                    <span>Video</span>
+                                </div>
+                            </div>
+
+                            <div>
+                                {selectedImage && (
+                                    <img
+                                        className="h-[10rem]"
+                                        src={selectedImage}
+                                        alt=""
+                                    />
+                                )}
+
+                                {selectedVideo && (
+                                    <video
+                                        className="h-[10rem]"
+                                        src={selectedVideo}
+                                        alt=""
+                                    />
+                                )}
+
+                                <div className="flex w-full justify-end">
+                                    <Button
+                                        variant="contained"
+                                        type="submit"
+                                        sx={{ borderRadius: "1.5rem" }}
+                                    >
+                                        Post
+                                    </Button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <Backdrop
+                        sx={{
+                            color: "#fff",
+                            zIndex: (theme) => theme.zIndex.drawer + 1,
+                        }}
+                        open={isLoading}
+                        onClick={handleClose}
                     >
-                        Text in a modal
-                    </Typography>
-                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                        Duis mollis, est non commodo luctus, nisi erat porttitor
-                        ligula.
-                    </Typography>
+                        <CircularProgress color="inherit" />
+                    </Backdrop>
                 </Box>
             </Modal>
         </div>

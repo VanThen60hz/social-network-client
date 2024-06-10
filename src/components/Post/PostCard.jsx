@@ -29,7 +29,7 @@ const PostCard = () => {
             <CardHeader
                 avatar={
                     <Avatar
-                        src="https://res.cloudinary.com/dbo5fc7j0/image/upload/v1717540128/avatar-anh-meo-cute-3_sexket.jpg"
+                        src="https://res.cloudinary.com/dbo5fc7j0/image/upload/v1717540128/meow-social/avatar-anh-meo-cute-3_sexket.jpg"
                         sx={{ bgcolor: red[500] }}
                         aria-label="recipe"
                     />
@@ -56,7 +56,7 @@ const PostCard = () => {
             <CardMedia
                 component="img"
                 height="194"
-                image="https://res.cloudinary.com/dbo5fc7j0/image/upload/v1717537904/cute-girl_mxssrk.jpg"
+                image="https://res.cloudinary.com/dbo5fc7j0/image/upload/v1717537904/meow-social/cute-girl_mxssrk.jpg"
                 alt="Paella dish"
             />
             <CardActions className="flex justify-between" disableSpacing>

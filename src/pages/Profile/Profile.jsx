@@ -39,7 +39,7 @@ const Profile = () => {
                 <div className="h-[15rem]">
                     <img
                         className="h-full w-full object-cover rounded-t-md object-top"
-                        src="https://res.cloudinary.com/dbo5fc7j0/image/upload/v1717539760/meow-bg_gz6x7y.jpg"
+                        src="https://res.cloudinary.com/dbo5fc7j0/image/upload/v1717539760/meow-social/meow-bg_gz6x7y.jpg"
                         alt=""
                     />
                 </div>
@@ -47,7 +47,7 @@ const Profile = () => {
                     <Avatar
                         className="transform -translate-y-24"
                         sx={{ width: "10rem", height: "10rem" }}
-                        src="https://res.cloudinary.com/dbo5fc7j0/image/upload/v1717539851/avatar-anh-meo-cute-5_dswfyl.jpg"
+                        src="https://res.cloudinary.com/dbo5fc7j0/image/upload/v1717539851/meow-social/avatar-anh-meo-cute-5_dswfyl.jpg"
                     />
 
                     {x ? (

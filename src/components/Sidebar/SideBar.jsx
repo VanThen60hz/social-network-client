@@ -57,7 +57,7 @@ const Sidebar = () => {
                 <Divider />
                 <div className="pl-5 flex items-center justify-between pt-5">
                     <div className="flex items-center space-x-3">
-                        <Avatar src="https://res.cloudinary.com/dbo5fc7j0/image/upload/v1717539851/avatar-anh-meo-cute-5_dswfyl.jpg" />
+                        <Avatar src="https://res.cloudinary.com/dbo5fc7j0/image/upload/v1717539851/meow-social/avatar-anh-meo-cute-5_dswfyl.jpg" />
                         <div>
                             <h1 className="py-1 font-bold text-xl">
                                 {user
