@@ -31,7 +31,7 @@ const Sidebar = () => {
             <div className="space-y-8 pl-5">
                 <Link hrefLang="./" className="flex items-center w-auto">
                     <img
-                        src="https://res.cloudinary.com/dbo5fc7j0/image/upload/v1717537960/cute-cat_gexvgp.png"
+                        src="https://res.cloudinary.com/dbo5fc7j0/image/upload/v1717537960/meow-social/cute-cat_gexvgp.png"
                         alt="Meow Social logo"
                         className="shrink-0 w-12 h-12 object-contain"
                     />
