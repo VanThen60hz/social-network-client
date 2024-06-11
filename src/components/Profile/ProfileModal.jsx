@@ -5,7 +5,7 @@ import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import { useFormik } from "formik";
 import { useDispatch } from "react-redux";
-import { updateProfileAction } from "../../Redux/auth/auth.action";
+import { updateProfileAction } from "../../Redux/Auth/auth.action";
 
 const style = {
     position: "absolute",

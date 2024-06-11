@@ -2,13 +2,13 @@ import { Card, Grid } from "@mui/material";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Outlet, useNavigate } from "react-router-dom";
-import { getProfileAction } from "../../Redux/auth/auth.action";
+import { getProfileAction } from "../../Redux/Auth/auth.action";
 
 const Authentication = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const jwt = localStorage.getItem("jwt");
-    const user = useSelector((state) => state.auth.user);
+    const auth = useSelector((state) => state.auth);
 
     useEffect(() => {
         if (jwt) {
@@ -17,10 +17,10 @@ const Authentication = () => {
     }, [jwt, dispatch]);
 
     useEffect(() => {
-        if (user) {
+        if (auth.user) {
             navigate("/");
         }
-    }, [user, navigate]);
+    }, [auth.user, navigate]);
 
     return (
         <div>

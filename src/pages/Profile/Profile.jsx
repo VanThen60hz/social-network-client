@@ -25,7 +25,7 @@ const Profile = () => {
     const handleClose = () => setOpen(false);
 
     const [value, setValue] = useState("posts");
-    const user = useSelector((state) => state.auth.user);
+    const auth = useSelector((state) => state.auth);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -72,15 +72,15 @@ const Profile = () => {
                 <div className="p-5">
                     <div>
                         <h1 className="py-1 font-bold text-xl">
-                            {user
-                                ? `${user.firstName} ${user.lastName}`
+                            {auth.user
+                                ? `${auth.user.firstName} ${auth.user.lastName}`
                                 : "Loading..."}
                         </h1>
                         <p>
-                            {user && user.email
-                                ? `@${user.email.slice(
+                            {auth.user && auth.user.email
+                                ? `@${auth.user.email.slice(
                                       0,
-                                      user.email.indexOf("@"),
+                                      auth.user.email.indexOf("@"),
                                   )}`
                                 : "Loading..."}
                         </p>

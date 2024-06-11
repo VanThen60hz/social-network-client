@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const Sidebar = () => {
-    const user = useSelector((state) => state.auth.user);
+    const auth = useSelector((state) => state.auth);
     const navigate = useNavigate();
 
     const [anchorEl, setAnchorEl] = useState(null);
@@ -20,7 +20,7 @@ const Sidebar = () => {
 
     const handleNavigate = (item) => {
         if (item.title === "Profile") {
-            navigate(`/profile/${user?.id}`);
+            navigate(`/profile/${auth.user?.id}`);
         } else {
             navigate(`${item.path}`);
         }
@@ -60,15 +60,15 @@ const Sidebar = () => {
                         <Avatar src="https://res.cloudinary.com/dbo5fc7j0/image/upload/v1717539851/meow-social/avatar-anh-meo-cute-5_dswfyl.jpg" />
                         <div>
                             <h1 className="py-1 font-bold text-xl">
-                                {user
-                                    ? `${user.firstName} ${user.lastName}`
+                                {auth.user
+                                    ? `${auth.user.firstName} ${auth.user.lastName}`
                                     : "Loading..."}
                             </h1>
                             <p>
-                                {user && user.email
-                                    ? `@${user.email.slice(
+                                {auth.user && auth.user.email
+                                    ? `@${auth.user.email.slice(
                                           0,
-                                          user.email.indexOf("@"),
+                                          auth.user.email.indexOf("@"),
                                       )}`
                                     : "Loading..."}
                             </p>

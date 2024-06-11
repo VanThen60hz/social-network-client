@@ -1,7 +1,7 @@
 import { Button, TextField } from "@mui/material";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useDispatch } from "react-redux";
-import { loginUserAction } from "../../Redux/auth/auth.action";
+import { loginUserAction } from "../../Redux/Auth/auth.action";
 import { useNavigate } from "react-router-dom";
 
 const initialValues = { email: "", password: "" };

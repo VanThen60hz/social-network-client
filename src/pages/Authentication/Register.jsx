@@ -8,7 +8,7 @@ import {
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { registerUserAction } from "../../Redux/auth/auth.action";
+import { registerUserAction } from "../../Redux/Auth/auth.action";
 import { useNavigate } from "react-router-dom";
 
 const initialValues = {
