@@ -14,15 +14,20 @@ import {
     CardContent,
     CardHeader,
     CardMedia,
+    Divider,
     IconButton,
     Typography,
 } from "@mui/material";
 import { red } from "@mui/material/colors";
 import { useState } from "react";
+import { formatDistanceToNow, parseISO } from "date-fns";
 
-const PostCard = () => {
+const PostCard = ({ item }) => {
     const [isLike, setIsLiked] = useState(false);
     const [isSave, setIsSaved] = useState(false);
+
+    const createdAt = parseISO(item.createdAt);
+    const timeAgo = formatDistanceToNow(createdAt, { addSuffix: true });
 
     return (
         <Card className="">
@@ -41,22 +46,22 @@ const PostCard = () => {
                 }
                 title={
                     <Typography sx={{ fontWeight: "bold" }}>
-                        Nguyễn Thị Ngọc Meow
+                        {item.user?.firstName + " " + item.user?.lastName}
                     </Typography>
                 }
-                subheader="May 2, 2024"
+                subheader={timeAgo}
             />
 
             <CardContent>
                 <Typography variant="body2" color="text.secondary">
-                    Wishing you a nice day ✨!
+                    {item?.caption}
                 </Typography>
             </CardContent>
 
             <CardMedia
                 component="img"
                 height="194"
-                image="https://res.cloudinary.com/dbo5fc7j0/image/upload/v1717537904/meow-social/cute-girl_mxssrk.jpg"
+                image={item?.image}
                 alt="Paella dish"
             />
             <CardActions className="flex justify-between" disableSpacing>
@@ -78,6 +83,27 @@ const PostCard = () => {
                     </IconButton>
                 </div>
             </CardActions>
+
+            <section>
+                <div className="flex items-center space-x-5 mx-3 my-5">
+                    <Avatar sx={{}} />
+                    <input
+                        onKeyUp={(e) => {
+                            if (e.key == "Enter") {
+                                console.log(
+                                    "enter pressed ----",
+                                    e.target.value,
+                                );
+                            }
+                        }}
+                        className="w-full outline-none bg-transparent border border-[#8d93aa] rounded-full px-5 py-2"
+                        type="text"
+                        placeholder="write your comment..."
+                    />
+                </div>
+
+                <Divider />
+            </section>
         </Card>
     );
 };

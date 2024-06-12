@@ -46,7 +46,7 @@ const MiddlePart = () => {
                     <Avatar src="https://res.cloudinary.com/dbo5fc7j0/image/upload/v1717539851/avatar-anh-meo-cute-5_dswfyl.jpg" />
                     <input
                         onClick={handleOpenCreatePostModal}
-                        className="outline-none w-[90%] rounded-full px-5 bg-transparent border-[#3b4054] border"
+                        className="outline-none w-[90%] rounded-full px-5 bg-transparent border-[#888da2] border"
                         type="text"
                         name=""
                         id=""
@@ -89,7 +89,7 @@ const MiddlePart = () => {
             </Card>
             <div className="mt-5 space-y-3">
                 {post.posts?.map((item) => {
-                    return <PostCard key={item} />;
+                    return <PostCard key={item} item={item} />;
                 })}
 
                 <div>

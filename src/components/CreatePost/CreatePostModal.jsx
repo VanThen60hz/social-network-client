@@ -11,7 +11,7 @@ import {
 import { useFormik } from "formik";
 import { useState } from "react";
 import { uploadToCloudinary } from "../../utils/uploadToCloudinary";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { createPostAction } from "../../Redux/Post/post.action";
 
 const style = {
@@ -32,6 +32,7 @@ const CreatePostModal = ({ handleClose, open }) => {
     const [selectedVideo, setSelectedVideo] = useState();
     const [isLoading, setIsLoading] = useState(false);
     const dispatch = useDispatch();
+    const auth = useSelector((state) => state.auth);
 
     const handleSelectImage = async (event) => {
         setIsLoading(true);
@@ -80,12 +81,21 @@ const CreatePostModal = ({ handleClose, open }) => {
                     <form onSubmit={formik.handleSubmit} action="">
                         <div>
                             <div className="flex space-x-4 items-center">
-                                <Avatar />
+                                <Avatar src="https://res.cloudinary.com/dbo5fc7j0/image/upload/v1717540128/meow-social/avatar-anh-meo-cute-3_sexket.jpg" />
                                 <div>
                                     <p className="font-bold text-lg">
-                                        Nguyễn Meow
+                                        {auth.user?.firstName +
+                                            "" +
+                                            auth.user?.lastName}
                                     </p>
-                                    <p className="text-sm">@meowmeow</p>
+                                    <p className="text-sm">
+                                        {auth.user && auth.user.email
+                                            ? `@${auth.user.email.slice(
+                                                  0,
+                                                  auth.user.email.indexOf("@"),
+                                              )}`
+                                            : "Loading..."}
+                                    </p>
                                 </div>
                             </div>
 
