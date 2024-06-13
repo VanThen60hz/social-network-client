@@ -19,18 +19,46 @@ import {
     Typography,
 } from "@mui/material";
 import { red } from "@mui/material/colors";
-import { useState } from "react";
 import { formatDistanceToNow, parseISO } from "date-fns";
+import { useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { CSSTransition } from "react-transition-group";
+import {
+    createCommentAction,
+    likePostAction,
+} from "../../Redux/Post/post.action";
+import { isLikeByReqUser } from "../../utils/isLikeByReqUser";
+import "./PostCard.css";
 
 const PostCard = ({ item }) => {
-    const [isLike, setIsLiked] = useState(false);
+    const auth = useSelector((state) => state.auth);
     const [isSave, setIsSaved] = useState(false);
+    const [showComments, setShowComments] = useState(false);
+    const dispatch = useDispatch();
 
-    const createdAt = parseISO(item.createdAt);
+    const createdAt = item?.createdAt ? parseISO(item?.createdAt) : new Date();
     const timeAgo = formatDistanceToNow(createdAt, { addSuffix: true });
 
+    const handleShowComment = () => setShowComments(!showComments);
+
+    const handleCreateComment = (content) => {
+        const reqData = {
+            postId: item.id,
+            data: {
+                content: content,
+            },
+        };
+        dispatch(createCommentAction(reqData));
+    };
+
+    const handleLikePost = () => {
+        dispatch(likePostAction(item.id));
+    };
+
+    const nodeRef = useRef(null);
+
     return (
-        <Card className="">
+        <Card>
             <CardHeader
                 avatar={
                     <Avatar
@@ -46,7 +74,7 @@ const PostCard = ({ item }) => {
                 }
                 title={
                     <Typography sx={{ fontWeight: "bold" }}>
-                        {item.user?.firstName + " " + item.user?.lastName}
+                        {item?.user?.firstName + " " + item?.user?.lastName}
                     </Typography>
                 }
                 subheader={timeAgo}
@@ -57,22 +85,30 @@ const PostCard = ({ item }) => {
                     {item?.caption}
                 </Typography>
             </CardContent>
-
             <CardMedia
                 component="img"
-                height="194"
+                height="auto"
                 image={item?.image}
-                alt="Paella dish"
+                alt="post image"
+                width="100%"
+                style={{
+                    objectFit: "contain",
+                }}
             />
+
             <CardActions className="flex justify-between" disableSpacing>
                 <div>
-                    <IconButton onClick={() => setIsLiked(!isLike)}>
-                        {isLike ? <Favorite /> : <FavoriteBorder />}
+                    <IconButton onClick={handleLikePost}>
+                        {isLikeByReqUser(auth?.user?.id, item) ? (
+                            <Favorite />
+                        ) : (
+                            <FavoriteBorder />
+                        )}
                     </IconButton>
                     <IconButton>
                         <Share />
                     </IconButton>
-                    <IconButton>
+                    <IconButton onClick={handleShowComment}>
                         <ChatBubble />
                     </IconButton>
                 </div>
@@ -83,27 +119,79 @@ const PostCard = ({ item }) => {
                     </IconButton>
                 </div>
             </CardActions>
+            <CSSTransition
+                in={showComments}
+                timeout={300}
+                classNames="comments"
+                unmountOnExit
+                nodeRef={nodeRef}
+            >
+                <section ref={nodeRef}>
+                    <div className="flex items-center space-x-5 mx-3 my-5">
+                        <Avatar
+                            sx={{}}
+                            src="https://res.cloudinary.com/dbo5fc7j0/image/upload/v1717540128/meow-social/avatar-anh-meo-cute-3_sexket.jpg"
+                        />
+                        <input
+                            onKeyUp={(e) => {
+                                if (e.key == "Enter") {
+                                    handleCreateComment(e.target.value);
 
-            <section>
-                <div className="flex items-center space-x-5 mx-3 my-5">
-                    <Avatar sx={{}} />
-                    <input
-                        onKeyUp={(e) => {
-                            if (e.key == "Enter") {
-                                console.log(
-                                    "enter pressed ----",
-                                    e.target.value,
-                                );
-                            }
-                        }}
-                        className="w-full outline-none bg-transparent border border-[#8d93aa] rounded-full px-5 py-2"
-                        type="text"
-                        placeholder="write your comment..."
-                    />
-                </div>
+                                    e.target.value = "";
+                                }
+                            }}
+                            className="w-full outline-none bg-transparent border border-[#8d93aa] rounded-full px-5 py-2"
+                            type="text"
+                            placeholder="write your comment..."
+                        />
+                    </div>
 
-                <Divider />
-            </section>
+                    <Divider />
+
+                    <div className="mx-3 space-y-5 my-5 text-sm">
+                        {item?.comments?.map((comment) => {
+                            const commentCreatedAt = parseISO(
+                                comment?.createdAt,
+                            );
+                            const commentTimeAgo = formatDistanceToNow(
+                                new Date(commentCreatedAt),
+                                { addSuffix: true },
+                            );
+                            return (
+                                <div
+                                    className="flex items-center space-x-5"
+                                    key={comment?.id}
+                                >
+                                    <Avatar
+                                        sx={{
+                                            height: "3.5rem",
+                                            width: "3.5rem",
+                                            fontSize: ".8rem",
+                                        }}
+                                        src="https://res.cloudinary.com/dbo5fc7j0/image/upload/v1717540128/meow-social/avatar-anh-meo-cute-3_sexket.jpg"
+                                    />
+                                    <div className="flex flex-col">
+                                        <Typography
+                                            sx={{
+                                                fontWeight: "bold",
+                                                fontSize: ".8rem",
+                                            }}
+                                        >
+                                            {comment?.user?.firstName +
+                                                " " +
+                                                comment?.user?.lastName}
+                                        </Typography>
+                                        <span className="text-slate-500 text-xs">
+                                            {commentTimeAgo}
+                                        </span>
+                                        <p>{comment?.content}</p>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </section>
+            </CSSTransition>
         </Card>
     );
 };

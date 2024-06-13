@@ -10,9 +10,9 @@ import {
 } from "@mui/material";
 import { useFormik } from "formik";
 import { useState } from "react";
-import { uploadToCloudinary } from "../../utils/uploadToCloudinary";
 import { useDispatch, useSelector } from "react-redux";
 import { createPostAction } from "../../Redux/Post/post.action";
+import { uploadToCloudinary } from "../../utils/uploadToCloudinary";
 
 const style = {
     position: "absolute",
@@ -68,6 +68,7 @@ const CreatePostModal = ({ handleClose, open }) => {
             dispatch(createPostAction(values));
         },
     });
+
     return (
         <div>
             {" "}
@@ -173,6 +174,7 @@ const CreatePostModal = ({ handleClose, open }) => {
                                         variant="contained"
                                         type="submit"
                                         sx={{ borderRadius: "1.5rem" }}
+                                        onClick={handleClose}
                                     >
                                         Post
                                     </Button>

@@ -1,7 +1,7 @@
 import { Grid } from "@mui/material";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { Outlet, useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { getProfileAction } from "../../Redux/Auth/auth.action";
 import HomeRight from "../../components/HomeRight/HomeRight";
 import Sidebar from "../../components/Sidebar/SideBar";
@@ -10,9 +10,9 @@ const Home = () => {
     const dispatch = useDispatch();
     const location = useLocation();
     const jwt = localStorage.getItem("jwt");
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
 
-    // const auth = useSelector((state) => state.auth);
+    const auth = useSelector((state) => state.auth);
 
     useEffect(() => {
         if (jwt) {
@@ -20,11 +20,11 @@ const Home = () => {
         }
     }, [jwt, dispatch]);
 
-    // useEffect(() => {
-    //     if (!auth.user) {
-    //         navigate("/login");
-    //     }
-    // }, [auth.user, navigate]);
+    useEffect(() => {
+        if (!auth.user) {
+            navigate("/login");
+        }
+    }, [auth.user, navigate]);
 
     return (
         <div>

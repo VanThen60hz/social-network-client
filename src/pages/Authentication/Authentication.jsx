@@ -14,13 +14,10 @@ const Authentication = () => {
         if (jwt) {
             dispatch(getProfileAction(jwt));
         }
-    }, [jwt, dispatch]);
-
-    useEffect(() => {
         if (auth.user) {
             navigate("/");
         }
-    }, [auth.user, navigate]);
+    }, [auth.user, navigate, dispatch, jwt]);
 
     return (
         <div>

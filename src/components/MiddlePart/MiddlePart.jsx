@@ -25,7 +25,7 @@ const MiddlePart = () => {
 
     useEffect(() => {
         dispatch(getAllPostAction());
-    }, [dispatch]);
+    }, [dispatch, post.newComment]);
 
     return (
         <div className="px-20 bg-slate-50">
@@ -43,7 +43,7 @@ const MiddlePart = () => {
 
             <Card className="p-5 mt-5">
                 <div className="flex justify-between">
-                    <Avatar src="https://res.cloudinary.com/dbo5fc7j0/image/upload/v1717539851/avatar-anh-meo-cute-5_dswfyl.jpg" />
+                    <Avatar src="https://res.cloudinary.com/dbo5fc7j0/image/upload/v1717539851/meow-social/avatar-anh-meo-cute-5_dswfyl.jpg" />
                     <input
                         onClick={handleOpenCreatePostModal}
                         className="outline-none w-[90%] rounded-full px-5 bg-transparent border-[#888da2] border"
@@ -89,7 +89,7 @@ const MiddlePart = () => {
             </Card>
             <div className="mt-5 space-y-3">
                 {post.posts?.map((item) => {
-                    return <PostCard key={item} item={item} />;
+                    return <PostCard key={item.id} item={item} />;
                 })}
 
                 <div>

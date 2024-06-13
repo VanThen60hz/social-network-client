@@ -1,31 +1,41 @@
 import { Button, TextField } from "@mui/material";
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import { useDispatch } from "react-redux";
-import { loginUserAction } from "../../Redux/Auth/auth.action";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import * as Yup from "yup";
+import { loginUserAction } from "../../Redux/Auth/auth.action";
 
 const initialValues = { email: "", password: "" };
-// const validationSchema = {
-//     email: Yup.string().email("Invalid email").required("Email is required"),
-//     password: Yup.string()
-//         .min(6, "Password must be at least 6 characters")
-//         .required("Password is required"),
-// };
+const validationSchema = Yup.object({
+    email: Yup.string().email("Invalid email").required("Email is required"),
+    password: Yup.string()
+        .min(6, "Password must be at least 6 characters")
+        .required("Password is required"),
+});
 
 const Login = () => {
-    // const [formVaue, setFormValue] = useState([]);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    let jwt = localStorage.getItem("jwt");
+    const auth = useSelector((state) => state.auth);
+
+    useEffect(() => {
+        if (auth?.user) {
+            navigate("/");
+        }
+    }, [jwt, auth?.user, navigate]);
 
     const handleSubmit = (values) => {
         dispatch(loginUserAction({ data: values }));
+        jwt = localStorage.getItem("jwt");
     };
 
     return (
         <>
             <Formik
                 onSubmit={handleSubmit}
-                // validationSchema={validationSchema}
+                validationSchema={validationSchema}
                 initialValues={initialValues}
             >
                 <Form className="space-y-5">
@@ -35,7 +45,7 @@ const Login = () => {
                                 as={TextField}
                                 name="email"
                                 placeholder="Email"
-                                type="email"
+                                type="text"
                                 variant="outlined"
                                 fullWidth
                             />

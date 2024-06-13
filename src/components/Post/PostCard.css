@@ -1,0 +1,18 @@
+.comments-enter {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+.comments-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 900ms, transform 900ms;
+}
+.comments-exit {
+    opacity: 1;
+    transform: translateY(0);
+}
+.comments-exit-active {
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 900ms, transform 900ms;
+}

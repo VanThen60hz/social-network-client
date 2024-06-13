@@ -1,9 +1,11 @@
 import { Avatar, Box, Button, Card, Tab, Tabs } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PostCard from "../../components/Post/PostCard.jsx";
 import UserReelCard from "../../components/Reels/UserReelCard.jsx";
 import ProfileModal from "../../components/Profile/ProfileModal.jsx";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getUsersPostAction } from "../../Redux/Post/post.action.js";
+import { useParams } from "react-router-dom";
 
 const tabs = [
     { value: "posts", name: "Posts" },
@@ -12,26 +14,33 @@ const tabs = [
     { value: "repost", name: "Repost" },
 ];
 
-const posts = [1, 2, 3, 4, 5];
 const reels = [1, 2, 3, 4, 5];
 const savedPosts = [1, 2, 3, 4, 5];
 const reposts = [1, 2, 3, 4, 5];
 
 const Profile = () => {
-    // const { id } = useParams();
+    const { id } = useParams();
 
     const [open, setOpen] = useState(false);
-    const handleOpenProfileModal = () => setOpen(true);
+    const [isMyProfile, setIsMyProfile] = useState(false);
+    const dispatch = useDispatch();
+    const handleOpenProfileModal = () => setOpen(!open);
     const handleClose = () => setOpen(false);
 
     const [value, setValue] = useState("posts");
     const auth = useSelector((state) => state.auth);
+    const post = useSelector((state) => state.post);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
 
-    let x = true;
+    useEffect(() => {
+        dispatch(getUsersPostAction(id));
+        if (auth?.user?.id == id) {
+            setIsMyProfile(true);
+        }
+    }, [dispatch, id, auth?.user?.id]);
 
     return (
         <Card className="py-10 w-[90%]">
@@ -50,7 +59,7 @@ const Profile = () => {
                         src="https://res.cloudinary.com/dbo5fc7j0/image/upload/v1717539851/meow-social/avatar-anh-meo-cute-5_dswfyl.jpg"
                     />
 
-                    {x ? (
+                    {isMyProfile ? (
                         <Button
                             sx={{ borderRadius: "20px" }}
                             variant="outlined"
@@ -63,7 +72,6 @@ const Profile = () => {
                             sx={{ borderRadius: "20px" }}
                             className="rounded-full"
                             variant="outlined"
-                            onClick={undefined}
                         >
                             Follow
                         </Button>
@@ -126,7 +134,7 @@ const Profile = () => {
                     <div className="flex justify-center">
                         {value === "posts" ? (
                             <div className="space-y-5 w-[95%] my-10">
-                                {posts.map((item) => (
+                                {post?.posts?.map((item) => (
                                     <div
                                         className="border border-slate-100 rounded-md"
                                         key={item}
