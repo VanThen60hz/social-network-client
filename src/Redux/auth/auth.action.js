@@ -1,22 +1,9 @@
 import axios from "axios";
 import { API_BASE_URL, api } from "../../config/api";
-import {
-    GET_PROFILE_FAILURE,
-    GET_PROFILE_REQUEST,
-    GET_PROFILE_SUCCESS,
-    LOGIN_FAILURE,
-    LOGIN_REQUEST,
-    LOGIN_SUCCESS,
-    REGISTER_FAILURE,
-    REGISTER_REQUEST,
-    REGISTER_SUCCESS,
-    UPDATE_PROFILE_FAILURE,
-    UPDATE_PROFILE_REQUEST,
-    UPDATE_PROFILE_SUCCESS,
-} from "./auth.actionType";
+import * as actionType from "./auth.actionType";
 
 export const loginUserAction = (loginData) => async (dispatch) => {
-    dispatch({ type: LOGIN_REQUEST });
+    dispatch({ type: actionType.LOGIN_REQUEST });
 
     try {
         const { data } = await axios.post(
@@ -26,16 +13,16 @@ export const loginUserAction = (loginData) => async (dispatch) => {
 
         if (data.token) {
             localStorage.setItem("jwt", data.token);
-            dispatch({ type: LOGIN_SUCCESS, payload: data.token });
+            dispatch({ type: actionType.LOGIN_SUCCESS, payload: data.token });
         }
     } catch (error) {
         console.log("--------------");
-        dispatch({ type: LOGIN_FAILURE, payload: error });
+        dispatch({ type: actionType.LOGIN_FAILURE, payload: error });
     }
 };
 
 export const registerUserAction = (registerData) => async (dispatch) => {
-    dispatch({ type: REGISTER_REQUEST });
+    dispatch({ type: actionType.REGISTER_REQUEST });
     try {
         const { data } = await axios.post(
             `${API_BASE_URL}/auth/signup`,
@@ -48,15 +35,15 @@ export const registerUserAction = (registerData) => async (dispatch) => {
 
         console.log("register", data);
 
-        dispatch({ type: REGISTER_SUCCESS, payload: data.token });
+        dispatch({ type: actionType.REGISTER_SUCCESS, payload: data.token });
     } catch (error) {
         console.log("--------------");
-        dispatch({ type: REGISTER_FAILURE, payload: error });
+        dispatch({ type: actionType.REGISTER_FAILURE, payload: error });
     }
 };
 
 export const getProfileAction = (jwt) => async (dispatch) => {
-    dispatch({ type: GET_PROFILE_REQUEST });
+    dispatch({ type: actionType.GET_PROFILE_REQUEST });
 
     try {
         const { data } = await axios.get(`${API_BASE_URL}/api/user/profile`, {
@@ -66,24 +53,24 @@ export const getProfileAction = (jwt) => async (dispatch) => {
         });
         console.log("profile: ", data);
 
-        dispatch({ type: GET_PROFILE_SUCCESS, payload: data });
+        dispatch({ type: actionType.GET_PROFILE_SUCCESS, payload: data });
     } catch (error) {
         console.log("--------------");
-        dispatch({ type: GET_PROFILE_FAILURE, payload: error });
+        dispatch({ type: actionType.GET_PROFILE_FAILURE, payload: error });
     }
 };
 
 export const updateProfileAction = (reqData) => async (dispatch) => {
-    dispatch({ type: UPDATE_PROFILE_REQUEST });
+    dispatch({ type: actionType.UPDATE_PROFILE_REQUEST });
     try {
         const { data } = await api.patch("/api/user", reqData);
         console.log("update profile: ", data);
 
-        dispatch({ type: UPDATE_PROFILE_SUCCESS, payload: reqData });
+        dispatch({ type: actionType.UPDATE_PROFILE_SUCCESS, payload: reqData });
     } catch (error) {
         console.error("Update profile error: ", error);
         dispatch({
-            type: UPDATE_PROFILE_FAILURE,
+            type: actionType.UPDATE_PROFILE_FAILURE,
             payload: error.message,
         });
     }

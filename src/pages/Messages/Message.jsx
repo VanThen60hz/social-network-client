@@ -2,6 +2,7 @@ import { AddPhotoAlternate, Call, VideoCall, West } from "@mui/icons-material";
 import { Avatar, Grid, IconButton } from "@mui/material";
 import SearchUser from "../../components/SearchUser/SearchUser";
 import UserChatCard from "../../components/UserChatCard/UserChatCard";
+import ChatMessage from "../../components/ChatMessage/ChatMessage";
 
 const Message = () => {
     const handleSelectImage = () => {
@@ -50,7 +51,7 @@ const Message = () => {
                         </div>
 
                         <div className="overflow-y-scroll hideScrollBar h-[82vh] px-2 space-y-5 py-5">
-                            Message
+                            <ChatMessage />
                         </div>
 
                         <div className="sticky bottom-0 border-1">
