@@ -19,7 +19,7 @@ const style = {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 500,
+    width: "45vw",
     bgcolor: "background.paper",
     boxShadow: 24,
     p: 4,
@@ -32,7 +32,7 @@ const CreatePostModal = ({ handleClose, open }) => {
     const [selectedVideo, setSelectedVideo] = useState();
     const [isLoading, setIsLoading] = useState(false);
     const dispatch = useDispatch();
-    const auth = useSelector((state) => state.auth);
+    const auth = useSelector((store) => store.auth);
 
     const handleSelectImage = async (event) => {
         setIsLoading(true);
@@ -53,7 +53,7 @@ const CreatePostModal = ({ handleClose, open }) => {
         );
         setSelectedVideo(videoUrl);
         setIsLoading(false);
-        formik.setFieldValue("image", videoUrl);
+        formik.setFieldValue("video", videoUrl);
     };
 
     const formik = useFormik({
@@ -63,15 +63,18 @@ const CreatePostModal = ({ handleClose, open }) => {
             video: "",
         },
 
-        onSubmit: (values) => {
+        onSubmit: (values, { resetForm }) => {
             console.log("formik value:", values);
             dispatch(createPostAction(values));
+            resetForm();
+            setSelectedImage(null);
+            setSelectedVideo(null);
+            handleClose();
         },
     });
 
     return (
         <div>
-            {" "}
             <Modal
                 open={open}
                 onClose={handleClose}
@@ -79,14 +82,14 @@ const CreatePostModal = ({ handleClose, open }) => {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <form onSubmit={formik.handleSubmit} action="">
+                    <form onSubmit={formik.handleSubmit}>
                         <div>
                             <div className="flex space-x-4 items-center">
                                 <Avatar src="https://res.cloudinary.com/dbo5fc7j0/image/upload/v1717540128/meow-social/avatar-anh-meo-cute-3_sexket.jpg" />
                                 <div>
                                     <p className="font-bold text-lg">
                                         {auth.user?.firstName +
-                                            "" +
+                                            " " +
                                             auth.user?.lastName}
                                     </p>
                                     <p className="text-sm">
@@ -101,14 +104,13 @@ const CreatePostModal = ({ handleClose, open }) => {
                             </div>
 
                             <textarea
-                                className="outline-none w-full mt-5 p-2 bg-transparent border border-[#3b4054] rounded-sm"
+                                className="outline-none resize-none w-full mt-5 p-2 bg-transparent rounded-sm"
                                 name="caption"
-                                id=""
                                 onChange={formik.handleChange}
                                 value={formik.values.caption}
                                 cols={30}
-                                rows={4}
-                                placeholder="write caption..."
+                                rows={2}
+                                placeholder={`What's on your mind, ${auth?.user?.lastName}?`}
                             ></textarea>
 
                             <div className="flex space-x-5 items-center mt-5">
@@ -118,7 +120,6 @@ const CreatePostModal = ({ handleClose, open }) => {
                                         accept="image/*"
                                         onChange={handleSelectImage}
                                         style={{ display: "none" }}
-                                        name=""
                                         id="image-input"
                                     />
                                     <label htmlFor="image-input">
@@ -126,7 +127,7 @@ const CreatePostModal = ({ handleClose, open }) => {
                                             color="primary"
                                             component="span"
                                         >
-                                            <Image />{" "}
+                                            <Image />
                                         </IconButton>
                                     </label>
                                     <span>Image</span>
@@ -137,7 +138,6 @@ const CreatePostModal = ({ handleClose, open }) => {
                                         accept="video/*"
                                         onChange={handleSelectVideo}
                                         style={{ display: "none" }}
-                                        name=""
                                         id="video-input"
                                     />
                                     <label htmlFor="video-input">
@@ -145,7 +145,7 @@ const CreatePostModal = ({ handleClose, open }) => {
                                             color="primary"
                                             component="span"
                                         >
-                                            <VideoCall />{" "}
+                                            <VideoCall />
                                         </IconButton>
                                     </label>
                                     <span>Video</span>
@@ -157,7 +157,7 @@ const CreatePostModal = ({ handleClose, open }) => {
                                     <img
                                         className="h-[10rem]"
                                         src={selectedImage}
-                                        alt=""
+                                        alt="Selected"
                                     />
                                 )}
 
@@ -165,7 +165,7 @@ const CreatePostModal = ({ handleClose, open }) => {
                                     <video
                                         className="h-[10rem]"
                                         src={selectedVideo}
-                                        alt=""
+                                        controls
                                     />
                                 )}
 
@@ -174,7 +174,6 @@ const CreatePostModal = ({ handleClose, open }) => {
                                         variant="contained"
                                         type="submit"
                                         sx={{ borderRadius: "1.5rem" }}
-                                        onClick={handleClose}
                                     >
                                         Post
                                     </Button>
@@ -188,7 +187,6 @@ const CreatePostModal = ({ handleClose, open }) => {
                             zIndex: (theme) => theme.zIndex.drawer + 1,
                         }}
                         open={isLoading}
-                        onClick={handleClose}
                     >
                         <CircularProgress color="inherit" />
                     </Backdrop>

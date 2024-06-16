@@ -13,6 +13,7 @@ export const messageReducer = (state = initialState, action) => {
         case actionType.CREATE_MESSAGE_REQUEST:
         case actionType.CREATE_CHAT_REQUEST:
         case actionType.GET_ALL_CHAT_REQUEST:
+        case actionType.GET_MESSAGE_FROM_CHAT_REQUEST:
             return { ...state, error: null, loading: false };
         case actionType.CREATE_MESSAGE_SUCCESS:
             return {
@@ -27,11 +28,17 @@ export const messageReducer = (state = initialState, action) => {
         case actionType.GET_ALL_CHAT_SUCCESS:
             return {
                 ...state,
-                chats: actionType.payload,
+                chats: action.payload,
+            };
+        case actionType.GET_MESSAGE_FROM_CHAT_SUCCESS:
+            return {
+                ...state,
+                messages: action.payload,
             };
         case actionType.CREATE_MESSAGE_FAILURE:
         case actionType.CREATE_CHAT_FAILURE:
         case actionType.GET_ALL_CHAT_FAILURE:
+        case actionType.GET_MESSAGE_FROM_CHAT_FAILURE:
             return { ...state, error: action.payload, loading: false };
 
         default:

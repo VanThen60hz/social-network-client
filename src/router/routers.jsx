@@ -7,7 +7,7 @@ import Authentication from "../pages/Authentication/Authentication";
 import Login from "../pages/Authentication/Login";
 import Register from "../pages/Authentication/Register";
 import Home from "../pages/Home/Home";
-import Message from "../pages/Messages/Message";
+import Messenger from "../pages/Messenger/Messenger";
 import Profile from "../pages/Profile/Profile";
 
 const routes = createBrowserRouter([
@@ -61,8 +61,8 @@ const routes = createBrowserRouter([
                 element: <div>Hello world!</div>,
             },
             {
-                path: "message",
-                element: <Message />,
+                path: "messages",
+                element: <Messenger />,
             },
         ],
     },

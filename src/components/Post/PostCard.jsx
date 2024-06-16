@@ -31,7 +31,7 @@ import { isLikeByReqUser } from "../../utils/isLikeByReqUser";
 import "./PostCard.css";
 
 const PostCard = ({ item }) => {
-    const auth = useSelector((state) => state.auth);
+    const auth = useSelector((store) => store.auth);
     const [isSave, setIsSaved] = useState(false);
     const [showComments, setShowComments] = useState(false);
     const dispatch = useDispatch();
@@ -159,32 +159,45 @@ const PostCard = ({ item }) => {
                             );
                             return (
                                 <div
-                                    className="flex items-center space-x-5"
+                                    className="flex items-center space-x-2"
                                     key={comment?.id}
                                 >
                                     <Avatar
                                         sx={{
-                                            height: "3.5rem",
-                                            width: "3.5rem",
+                                            height: "2.5rem",
+                                            width: "2.5rem",
                                             fontSize: ".8rem",
+                                            alignSelf: "flex-start",
+                                            margin: ".25rem",
                                         }}
                                         src="https://res.cloudinary.com/dbo5fc7j0/image/upload/v1717540128/meow-social/avatar-anh-meo-cute-3_sexket.jpg"
                                     />
-                                    <div className="flex flex-col">
-                                        <Typography
-                                            sx={{
-                                                fontWeight: "bold",
-                                                fontSize: ".8rem",
-                                            }}
-                                        >
-                                            {comment?.user?.firstName +
-                                                " " +
-                                                comment?.user?.lastName}
-                                        </Typography>
-                                        <span className="text-slate-500 text-xs">
-                                            {commentTimeAgo}
-                                        </span>
-                                        <p>{comment?.content}</p>
+                                    <div className="min-w-60">
+                                        <div className="flex flex-col w-full p-3 border rounded-xl bg-slate-50">
+                                            <Typography
+                                                sx={{
+                                                    fontWeight: "bold",
+                                                    fontSize: ".8rem",
+                                                }}
+                                            >
+                                                {comment?.user?.firstName +
+                                                    " " +
+                                                    comment?.user?.lastName}
+                                            </Typography>
+
+                                            <p>{comment?.content}</p>
+                                        </div>
+                                        <div className="flex gap-3 items-center ml-2">
+                                            <span className="text-slate-500 text-xs">
+                                                {commentTimeAgo}
+                                            </span>
+                                            <span className="font-semibold cursor-pointer hover:underline">
+                                                Like
+                                            </span>
+                                            <span className="font-semibold cursor-pointer hover:underline">
+                                                Reply
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                             );

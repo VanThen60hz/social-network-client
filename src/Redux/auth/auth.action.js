@@ -75,3 +75,19 @@ export const updateProfileAction = (reqData) => async (dispatch) => {
         });
     }
 };
+
+export const searchUser = (query) => async (dispatch) => {
+    dispatch({ type: actionType.SEARCH_USER_REQUEST });
+    try {
+        const { data } = await api.get(`/api/user/search?query=${query}`);
+        console.log("search user: ", data);
+
+        dispatch({ type: actionType.SEARCH_USER_SUCCESS, payload: data });
+    } catch (error) {
+        console.error("Update profile error: ", error);
+        dispatch({
+            type: actionType.SEARCH_USER_FAILURE,
+            payload: error.message,
+        });
+    }
+};

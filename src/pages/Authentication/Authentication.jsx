@@ -8,14 +8,11 @@ const Authentication = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const jwt = localStorage.getItem("jwt");
-    const auth = useSelector((state) => state.auth);
+    const auth = useSelector((store) => store.auth);
 
     useEffect(() => {
         if (jwt) {
             dispatch(getProfileAction(jwt));
-        }
-        if (auth.user) {
-            navigate("/");
         }
     }, [auth.user, navigate, dispatch, jwt]);
 

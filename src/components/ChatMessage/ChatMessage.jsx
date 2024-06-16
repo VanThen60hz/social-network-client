@@ -1,31 +1,40 @@
 import { Avatar } from "@mui/material";
+import { useSelector } from "react-redux";
 
-const ChatMessage = () => {
+const ChatMessage = ({ message }) => {
+    const auth = useSelector((store) => store.auth);
+
+    const isReqUserMessage = auth?.user?.id === message?.user?.id;
+
     return (
         <div
             className={`flex ${
-                true ? "justify-start" : "justify-end"
-            } text-[rgb(5,5,5)] items-end`}
+                !isReqUserMessage ? "justify-start" : "justify-end"
+            } text-[rgb(255,222,222)] items-end m-5`}
         >
-            {true && (
-                <Avatar
-                    className="mr-2"
-                    src="https://res.cloudinary.com/dbo5fc7j0/image/upload/v1717540128/meow-social/avatar-anh-meo-cute-3_sexket.jpg"
-                />
-            )}
+            <Avatar
+                className="mr-3 self-start"
+                src="https://res.cloudinary.com/dbo5fc7j0/image/upload/v1717540128/meow-social/avatar-anh-meo-cute-3_sexket.jpg"
+            />
             <div
                 className={`p-1 ${
-                    true ? "rounded-md" : "px-5 rounded-2xl"
-                } bg-[#f0f0f0] inline-block`}
+                    message?.image ? "rounded-md" : "px-5 rounded-2xl"
+                } ${
+                    !isReqUserMessage
+                        ? "bg-[#f0f0f0] text-slate-700"
+                        : "bg-blue-500 text-white"
+                }  inline-block`}
             >
-                {true && (
+                {message?.image && (
                     <img
-                        className="w-auto h-[17rem] object-cover rounded-md"
-                        src="https://cdn.pixabay.com/photo/2021/06/04/14/14/cat-6309964_1280.jpg"
+                        className="w-auto h-[17rem] object-cover rounded-md bg-white"
+                        src={message.image}
                         alt=""
                     />
                 )}
-                <p className={`${true ? "py-2" : "py-1"}`}>message...</p>
+                <p className={`${message.image ? "py-2 px-2" : "py-1"}`}>
+                    {message.content}
+                </p>
             </div>
         </div>
     );

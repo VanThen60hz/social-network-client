@@ -6,8 +6,8 @@ import {
     TextField,
 } from "@mui/material";
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { registerUserAction } from "../../Redux/Auth/auth.action";
 import { useNavigate } from "react-router-dom";
 
@@ -30,6 +30,14 @@ const Register = () => {
     const [gender, setGender] = useState("");
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    const auth = useSelector((store) => store.auth);
+
+    useEffect(() => {
+        if (auth?.user) {
+            navigate("/");
+        }
+    }, [auth?.user, navigate]);
 
     const handleSubmit = (values) => {
         values.gender = gender;

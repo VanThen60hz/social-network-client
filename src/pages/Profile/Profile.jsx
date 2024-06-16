@@ -28,8 +28,8 @@ const Profile = () => {
     const handleClose = () => setOpen(false);
 
     const [value, setValue] = useState("posts");
-    const auth = useSelector((state) => state.auth);
-    const post = useSelector((state) => state.post);
+    const auth = useSelector((store) => store.auth);
+    const post = useSelector((store) => store.post);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);

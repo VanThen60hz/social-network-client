@@ -18,7 +18,7 @@ const Login = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     let jwt = localStorage.getItem("jwt");
-    const auth = useSelector((state) => state.auth);
+    const auth = useSelector((store) => store.auth);
 
     useEffect(() => {
         if (auth?.user) {
