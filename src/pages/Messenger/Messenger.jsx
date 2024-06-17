@@ -13,7 +13,7 @@ import {
     Grid,
     IconButton,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
     createMessage,
@@ -24,38 +24,112 @@ import ChatMessage from "../../components/ChatMessage/ChatMessage";
 import SearchUser from "../../components/SearchUser/SearchUser";
 import UserChatCard from "../../components/UserChatCard/UserChatCard";
 import { uploadToCloudinary } from "../../utils/uploadToCloudinary";
+import SockJS from "sockjs-client";
+import Stomp from "stompjs";
 
 const Messenger = () => {
     const dispatch = useDispatch();
     const auth = useSelector((store) => store.auth);
     const message = useSelector((store) => store.message);
-    const [currentChat, setCurrentChat] = useState();
-    const [selectedImage, setSelectedImage] = useState();
+    const [messages, setMessages] = useState([]);
+    const [currentChat, setCurrentChat] = useState(null);
+    const [selectedImage, setSelectedImage] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [stompClient, setStompClient] = useState(null);
+    const chatContainerRef = useRef(null);
 
     useEffect(() => {
         dispatch(getAllChat());
+    }, [dispatch]);
+
+    useEffect(() => {
         if (currentChat) {
-            dispatch(getMessageFromChat(currentChat?.id));
+            dispatch(getMessageFromChat(currentChat.id));
         }
     }, [dispatch, currentChat, message.message]);
 
+    useEffect(() => {
+        if (message?.messages) {
+            setMessages(message.messages);
+        }
+    }, [message.messages]);
+
+    useEffect(() => {
+        const sock = new SockJS("http://localhost:8080/ws");
+        const stomp = Stomp.over(sock);
+        stomp.connect(
+            {},
+            () => {
+                console.log("WebSocket connected");
+                setStompClient(stomp);
+            },
+            (err) => {
+                console.error("WebSocket error:", err);
+            },
+        );
+
+        return () => {
+            if (stompClient) {
+                stompClient.disconnect();
+            }
+        };
+    }, []);
+
+    useEffect(() => {
+        if (stompClient && auth?.user && currentChat) {
+            const subscription = stompClient.subscribe(
+                `/group/chat/${currentChat.id}`,
+                (message) => {
+                    const newMessage = JSON.parse(message.body);
+                    setMessages((prevMessages) => [
+                        ...prevMessages,
+                        newMessage,
+                    ]);
+                },
+            );
+
+            return () => {
+                subscription.unsubscribe();
+            };
+        }
+    }, [stompClient, auth?.user, currentChat]);
+
+    const sendMessageToServer = (newMessage) => {
+        if (stompClient && newMessage) {
+            stompClient.send(
+                `/app/chat/${currentChat.id}`,
+                {},
+                JSON.stringify(newMessage),
+            );
+        }
+    };
+
+    const handleCreateMessage = (value) => {
+        const messageData = {
+            chatId: currentChat.id,
+            content: value,
+            image: selectedImage,
+        };
+        dispatch(createMessage({ message: messageData, sendMessageToServer }));
+    };
+
     const handleSelectImage = async (e) => {
         setLoading(true);
-        console.log("handle select image");
         const imgUrl = await uploadToCloudinary(e.target.files[0], "image");
         setSelectedImage(imgUrl);
         setLoading(false);
     };
 
-    const handleCreateMessage = (value) => {
-        const message = {
-            chatId: currentChat?.id,
-            content: value,
-            image: selectedImage,
-        };
-        dispatch(createMessage(message));
+    const scrollToBottom = () => {
+        if (chatContainerRef.current) {
+            chatContainerRef.current.scrollTop =
+                chatContainerRef.current.scrollHeight;
+        }
     };
+
+    useEffect(() => {
+        scrollToBottom();
+    }, [messages]);
 
     return (
         <div>
@@ -128,8 +202,11 @@ const Messenger = () => {
                                 </div>
                             </div>
 
-                            <div className="overflow-y-scroll hideScrollBar h-[80vh] px-2 space-y-5 py-5">
-                                {message?.messages?.map((item) => (
+                            <div
+                                ref={chatContainerRef}
+                                className="overflow-y-scroll hideScrollBar h-[80vh] px-2 space-y-5 py-5"
+                            >
+                                {messages?.map((item) => (
                                     <ChatMessage
                                         key={item?.id}
                                         message={item}

@@ -8,6 +8,11 @@
     display: none;
 }
 
+/* body {
+    background: #212543;
+    color: #fff;
+} */
+
 * {
     box-sizing: border-box;
 }

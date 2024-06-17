@@ -18,7 +18,7 @@ const style = {
     p: 2,
     width: 600,
     overflowY: "scroll", // Corrected overflow property
-    borderRadius: "3",
+    borderRadius: "3%",
 };
 
 export default function ProfileModal({ open, handleClose }) {
@@ -45,7 +45,7 @@ export default function ProfileModal({ open, handleClose }) {
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                <Box sx={style}>
+                <Box sx={style} className="hideScrollBar">
                     <form onSubmit={formik.handleSubmit}>
                         <div className="flex items-center justify-between">
                             <div className="flex items-center space-x-3">
